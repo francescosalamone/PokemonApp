@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.francescosalamone.model.dto.Pokemon
 import com.francescosalamone.pokemonapp.R
+import com.francescosalamone.pokemonapp.model.dto.Pokemon
 import com.francescosalamone.pokemonapp.ui.component.PokemonItem
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
 

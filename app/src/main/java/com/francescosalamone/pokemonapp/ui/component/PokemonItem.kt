@@ -15,8 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.francescosalamone.model.dto.Pokemon
 import com.francescosalamone.pokemonapp.R
+import com.francescosalamone.pokemonapp.model.dto.Pokemon
 
 @Composable
 fun PokemonItem(

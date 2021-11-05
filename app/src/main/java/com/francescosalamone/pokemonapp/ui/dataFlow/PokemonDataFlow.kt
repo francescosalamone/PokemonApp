@@ -1,7 +1,7 @@
 package com.francescosalamone.pokemonapp.ui.dataFlow
 
-import com.francescosalamone.domain.usecase.FetchPokemonListUseCase
-import com.francescosalamone.model.state.DataState
+import com.francescosalamone.pokemonapp.domain.usecase.FetchPokemonListUseCase
+import com.francescosalamone.pokemonapp.model.state.DataState
 import com.francescosalamone.pokemonapp.ui.contract.PokemonState
 import io.uniflow.android.AndroidDataFlow
 import kotlinx.coroutines.flow.collect

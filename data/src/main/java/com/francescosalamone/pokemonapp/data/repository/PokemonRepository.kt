@@ -1,7 +1,8 @@
 package com.francescosalamone.pokemonapp.data.repository
 
-import com.francescosalamone.model.dto.PokemonList
-import com.francescosalamone.model.state.DataState
+import com.francescosalamone.pokemonapp.model.dto.Pokemon
+import com.francescosalamone.pokemonapp.model.dto.PokemonList
+import com.francescosalamone.pokemonapp.model.state.DataState
 import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
