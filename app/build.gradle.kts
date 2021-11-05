@@ -39,6 +39,13 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01")
 
+
+    /**
+     * KOIN DEPENDENCIES
+     */
+    val koinVersion = "3.1.3"
+    implementation("io.insert-koin:koin-core:$koinVersion")
+
     implementation(project(":api"))
 
     testImplementation("junit:junit:4.13.2")

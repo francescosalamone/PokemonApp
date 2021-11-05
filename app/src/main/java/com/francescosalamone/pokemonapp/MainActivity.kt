@@ -5,50 +5,31 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import com.francescosalamone.pokemonapp.data.model.Pokemon
-import com.francescosalamone.pokemonapp.ui.layout.PokemonListLayout
+import com.francescosalamone.pokemonapp.di.AppDependency
+import com.francescosalamone.pokemonapp.di.appModule
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
+import org.koin.java.KoinJavaComponent.inject
 
 class MainActivity : ComponentActivity() {
+    private val dependency: AppDependency by inject(AppDependency::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadKoinModules(appModule)
+
         setContent {
             PokemonAppTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    PokemonListLayout(
-                        items = listOf(
-                            Pokemon(
-                                name = "Pickachu"
-                            ),
-                            Pokemon(
-                                name = "bulbasaur"
-                            ),
-                            Pokemon(
-                                name = "wobbuffet"
-                            ),
-                            Pokemon(
-                                name = "forretress"
-                            ),
-                            Pokemon(
-                                name = "dunsparce"
-                            ),
-                            Pokemon(
-                                name = "gligar"
-                            ),
-                            Pokemon(
-                                name = "snubbull"
-                            ),
-                            Pokemon(
-                                name = "granbull"
-                            )
-                        )
-                    )
+
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unloadKoinModules(appModule)
     }
 }
