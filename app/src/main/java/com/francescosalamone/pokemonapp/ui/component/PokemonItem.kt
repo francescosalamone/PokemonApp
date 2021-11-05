@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.francescosalamone.pokemonapp.R
-import com.francescosalamone.pokemonapp.data.model.Pokemon
+import com.francescosalamone.pokemonapp.data.dto.Pokemon
 
 @Composable
 fun PokemonItem(

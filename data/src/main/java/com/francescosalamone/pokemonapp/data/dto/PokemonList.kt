@@ -1,4 +1,4 @@
-package com.francescosalamone.pokemonapp.data.model
+package com.francescosalamone.pokemonapp.data.dto
 
 data class PokemonList (
     val count: Int? = null,

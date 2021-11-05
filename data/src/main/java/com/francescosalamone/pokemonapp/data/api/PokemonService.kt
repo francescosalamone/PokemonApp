@@ -1,6 +1,6 @@
-package com.francescosalamone.pokemonapp.data
+package com.francescosalamone.pokemonapp.data.api
 
-import com.francescosalamone.pokemonapp.data.model.PokemonList
+import com.francescosalamone.pokemonapp.data.dto.PokemonList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

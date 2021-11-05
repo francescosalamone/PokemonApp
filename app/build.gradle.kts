@@ -45,8 +45,20 @@ dependencies {
      */
     val koinVersion = "3.1.3"
     implementation("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.insert-koin:koin-android:$koinVersion")
 
-    implementation(project(":api"))
+    /**
+     * UNIFLOW
+     */
+    val uniflowVersion = "1.0.10"
+    implementation("org.uniflow-kt:uniflow-core:$uniflowVersion")
+    implementation("org.uniflow-kt:uniflow-android:$uniflowVersion")
+    implementation(project(":data"))
+
+    /**
+     * LOGGER DEPENDENCIES
+     */
+    implementation("com.jakewharton.timber:timber:4.7.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

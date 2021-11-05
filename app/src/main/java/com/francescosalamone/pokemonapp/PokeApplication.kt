@@ -1,7 +1,7 @@
 package com.francescosalamone.pokemonapp
 
 import android.app.Application
-import com.francescosalamone.pokemonapp.di.apiModule
+import com.francescosalamone.pokemonapp.data.di.apiModule
 import org.koin.core.context.startKoin
 
 class PokeApplication: Application() {

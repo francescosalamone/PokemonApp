@@ -1,7 +1,7 @@
 package com.francescosalamone.pokemonapp.di
 
-import com.francescosalamone.pokemonapp.data.PokemonService
+import com.francescosalamone.pokemonapp.data.repository.PokemonRepository
 
 class AppDependency(
-    val service: PokemonService
+    val repository: PokemonRepository
 )
