@@ -7,6 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.francescosalamone.pokemonapp.data.dto.PokemonList
 import com.francescosalamone.pokemonapp.di.appModule
+import com.francescosalamone.pokemonapp.ui.component.Loader
 import com.francescosalamone.pokemonapp.ui.contract.PokemonState
 import com.francescosalamone.pokemonapp.ui.dataFlow.PokemonDataFlow
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
         onStates(pokemonDataFlow) { state ->
             when(state) {
                 is PokemonState.Init -> Timber.d("State initialized.")
+                is PokemonState.Loading -> showLoading()
                 is PokemonState.PokemonResult -> updateUi(state.pokemons)
                 is PokemonState.Failure -> showError(state.exception)
             }
@@ -42,6 +44,16 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unloadKoinModules(appModule)
+    }
+
+    private fun showLoading() {
+        setContent {
+            PokemonAppTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    Loader()
+                }
+            }
+        }
     }
 
     private fun showError(exception: Exception) {

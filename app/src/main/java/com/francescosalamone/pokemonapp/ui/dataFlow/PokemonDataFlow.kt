@@ -17,6 +17,7 @@ class PokemonDataFlow(
 
     fun fetchPokemons() = action(
         onAction = {
+            setState { PokemonState.Loading }
             val result = repository.getPokemonList(50u, 0u)
             if (result.isSuccessful) {
                 setState {
