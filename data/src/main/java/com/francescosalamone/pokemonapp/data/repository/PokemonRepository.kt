@@ -1,12 +1,13 @@
 package com.francescosalamone.pokemonapp.data.repository
 
-import com.francescosalamone.pokemonapp.data.dto.PokemonList
-import retrofit2.Response
+import com.francescosalamone.model.dto.PokemonList
+import com.francescosalamone.model.state.DataState
+import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
 
-    suspend fun getPokemonList(
+    fun getPokemonList(
         limit: UInt,
         offset: UInt
-    ): Response<PokemonList>
+    ): Flow<DataState<PokemonList>>
 }

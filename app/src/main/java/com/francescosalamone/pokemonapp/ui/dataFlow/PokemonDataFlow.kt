@@ -1,12 +1,14 @@
 package com.francescosalamone.pokemonapp.ui.dataFlow
 
-import com.francescosalamone.pokemonapp.data.repository.PokemonRepository
+import com.francescosalamone.domain.usecase.FetchPokemonListUseCase
+import com.francescosalamone.model.state.DataState
 import com.francescosalamone.pokemonapp.ui.contract.PokemonState
 import io.uniflow.android.AndroidDataFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PokemonDataFlow(
-    private val repository: PokemonRepository
+    private val fetchAllPokemon: FetchPokemonListUseCase
 ) : AndroidDataFlow() {
 
     init {
@@ -17,16 +19,16 @@ class PokemonDataFlow(
 
     fun fetchPokemons() = action(
         onAction = {
-            setState { PokemonState.Loading }
-            val result = repository.getPokemonList(50u, 0u)
-            if (result.isSuccessful) {
-                setState {
-                    result.body()?.let { PokemonState.PokemonResult(it) }
-                        ?: PokemonState.Failure(Exception("Missing body content."))
+            fetchAllPokemon.getPokemonList(50u, 0u)
+                .collect {
+                    setState {
+                        when (it) {
+                            is DataState.Loading -> PokemonState.Loading
+                            is DataState.Success -> PokemonState.PokemonResult(it.data)
+                            is DataState.Failure -> PokemonState.Failure(it.error)
+                        }
+                    }
                 }
-            } else {
-                setState { PokemonState.Failure(Exception(result.errorBody()?.string())) }
-            }
         },
         onError = { error, _ ->
             setState{ PokemonState.Failure(error) }

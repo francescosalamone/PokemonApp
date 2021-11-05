@@ -1,6 +1,6 @@
 package com.francescosalamone.pokemonapp.ui.contract
 
-import com.francescosalamone.pokemonapp.data.dto.PokemonList
+import com.francescosalamone.model.dto.PokemonList
 import io.uniflow.core.flow.data.UIState
 
 sealed class PokemonState: UIState() {

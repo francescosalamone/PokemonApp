@@ -17,4 +17,15 @@ dependencies {
      */
     val koinVersion = "3.1.3"
     implementation("io.insert-koin:koin-core:$koinVersion")
+
+    /**
+     * COROUTINES DEPENDENCIES
+     */
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+
+    /**
+     * MODULE DEPENDENCIES
+     */
+    implementation(project(":model"))
+
 }

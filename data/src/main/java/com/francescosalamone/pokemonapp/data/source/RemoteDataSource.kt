@@ -1,7 +1,7 @@
 package com.francescosalamone.pokemonapp.data.source
 
+import com.francescosalamone.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.data.api.PokemonService
-import com.francescosalamone.pokemonapp.data.dto.PokemonList
 import retrofit2.Response
 
 class RemoteDataSource(private val service: PokemonService): DataSource {

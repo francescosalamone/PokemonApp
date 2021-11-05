@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import com.francescosalamone.pokemonapp.data.dto.PokemonList
+import com.francescosalamone.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.di.appModule
 import com.francescosalamone.pokemonapp.ui.component.Loader
 import com.francescosalamone.pokemonapp.ui.contract.PokemonState
@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun showError(exception: Exception) {
-        Timber.d("Error from service: $exception")
+        Timber.d("Failure from service: $exception")
     }
 
     private fun updateUi(pokemons: PokemonList) {

@@ -53,6 +53,12 @@ dependencies {
     val uniflowVersion = "1.0.10"
     implementation("org.uniflow-kt:uniflow-core:$uniflowVersion")
     implementation("org.uniflow-kt:uniflow-android:$uniflowVersion")
+
+    /**
+     * MODULE DEPENDENCIES
+     */
+    implementation(project(":domain"))
+    implementation(project(":model"))
     implementation(project(":data"))
 
     /**

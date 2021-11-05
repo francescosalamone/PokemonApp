@@ -1,4 +1,4 @@
-package com.francescosalamone.pokemonapp.data.dto
+package com.francescosalamone.model.dto
 
 import com.squareup.moshi.Json
 
