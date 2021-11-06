@@ -11,9 +11,11 @@ import androidx.compose.ui.tooling.preview.Preview
 
 
 @Composable
-fun Loader() {
+fun Loader(
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

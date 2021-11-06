@@ -6,17 +6,25 @@ import com.francescosalamone.pokemonapp.model.state.DataState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 
 class FetchPokemonListUseCase(
-    private val repository: PokemonRepository
+    private val repository: PokemonRepository,
+    private val initialPage: UInt,
+    private val limit: UInt
 ) {
+    private var currentPage = initialPage
 
-    fun getPokemonList(
-        limit: UInt,
-        offset: UInt
-    ): Flow<DataState<PokemonList>> {
+    fun getPokemonList(): Flow<DataState<PokemonList>> {
+        val offset = currentPage * limit
+
         return repository.getPokemonList(limit, offset)
             .flowOn(Dispatchers.IO)
+            .onEach {
+                if(it is DataState.Success) {
+                    currentPage++
+                }
+            }
     }
 
 }

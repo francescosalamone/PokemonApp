@@ -5,7 +5,7 @@ import io.uniflow.core.flow.data.UIState
 
 sealed class PokemonState: UIState() {
     object Init: PokemonState()
-    object Loading: PokemonState()
-    data class PokemonResult(val pokemons: PokemonList): PokemonState()
+    data class Loading(val pokemons: List<PokemonList.PokemonData>): PokemonState()
+    data class PokemonResult(val pokemons: List<PokemonList.PokemonData>): PokemonState()
     data class Failure(val exception: Exception): PokemonState()
 }

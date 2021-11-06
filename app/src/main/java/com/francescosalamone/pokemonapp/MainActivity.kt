@@ -7,7 +7,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.francescosalamone.pokemonapp.di.appModule
 import com.francescosalamone.pokemonapp.model.dto.PokemonList
-import com.francescosalamone.pokemonapp.ui.component.Loader
 import com.francescosalamone.pokemonapp.ui.contract.PokemonState
 import com.francescosalamone.pokemonapp.ui.dataFlow.PokemonDataFlow
 import com.francescosalamone.pokemonapp.ui.layout.PokemonListLayout
@@ -28,14 +27,26 @@ class MainActivity : ComponentActivity() {
 
         onStates(pokemonDataFlow) { state ->
             when(state) {
-                is PokemonState.Init -> Timber.d("State initialized.")
-                is PokemonState.Loading -> showLoading()
-                is PokemonState.PokemonResult -> updateUi(state.pokemons)
+                is PokemonState.Init -> pokemonDataFlow.fetchPokemons()
+
+                is PokemonState.Loading -> {
+                    updateUi(
+                        isLoading = true,
+                        pokemons = state.pokemons,
+                        onNeedToFetch = pokemonDataFlow::fetchPokemons
+                    )
+                }
+
+                is PokemonState.PokemonResult -> {
+                    updateUi(
+                        pokemons = state.pokemons,
+                        onNeedToFetch = pokemonDataFlow::fetchPokemons
+                    )
+                }
+
                 is PokemonState.Failure -> showError(state.exception)
             }
         }
-
-        pokemonDataFlow.fetchPokemons()
     }
 
     override fun onDestroy() {
@@ -43,30 +54,22 @@ class MainActivity : ComponentActivity() {
         unloadKoinModules(appModule)
     }
 
-    private fun showLoading() {
-        setContent {
-            PokemonAppTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    Loader()
-                }
-            }
-        }
-    }
-
     private fun showError(exception: Exception) {
         Timber.d("Failure from service: $exception")
     }
 
-    private fun updateUi(pokemons: PokemonList) {
-        Timber.d("Returned pokemon list with ${pokemons.results.size} items")
+    private fun updateUi(isLoading: Boolean = false, pokemons: List<PokemonList.PokemonData>, onNeedToFetch: () -> Unit ) {
+        Timber.d("Returned pokemon list with ${pokemons.size} items")
         setContent {
             PokemonAppTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     PokemonListLayout(
-                        items = pokemons.results,
+                        items = pokemons,
                         onItemClick = {
                             Timber.d("${it.name} clicked!")
-                        }
+                        },
+                        onNeedToFetch = onNeedToFetch,
+                        isLoading = isLoading
                     )
                 }
             }

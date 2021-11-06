@@ -18,21 +18,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.francescosalamone.pokemonapp.R
 import com.francescosalamone.pokemonapp.model.dto.PokemonList.PokemonData
+import com.francescosalamone.pokemonapp.ui.component.Loader
 import com.francescosalamone.pokemonapp.ui.component.PokemonItem
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
+import timber.log.Timber
 
 @Composable
 fun PokemonListLayout(
     items: List<PokemonData>,
     columns: Int = 2,
     hPadding: Int = 8,
-    onItemClick: (PokemonData) -> Unit
+    isLoading: Boolean = false,
+    onItemClick: (PokemonData) -> Unit,
+    onNeedToFetch: () -> Unit
 ) {
     val chunkedList = items.chunked(columns)
     val listState = rememberLazyListState()
     val scrollState = rememberScrollState()
+
+    if (listState.layoutInfo.visibleItemsInfo.any { it.index == chunkedList.lastIndex } && !isLoading) {
+        Timber.d("Need to fetch new data")
+        onNeedToFetch.invoke()
+    }
 
     Scaffold(
         topBar = {
@@ -43,27 +53,47 @@ fun PokemonListLayout(
             )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(horizontal = hPadding.dp)
-                .fillMaxWidth()
-                .scrollable(scrollState, Orientation.Vertical),
-            state = listState
-        ) {
-            items(chunkedList) { item ->
-                Row {
-                    item.forEach { pokemon ->
-                        PokemonItem(this, pokemon, onItemClick)
-                    }
+        ConstraintLayout {
+            val (content, progress) = createRefs()
 
-                    repeat(columns - item.size) {
-                        Box(
-                            modifier = Modifier
-                                .weight(1F)
-                                .padding(8.dp)
-                        ) {}
+            LazyColumn(
+                modifier = Modifier
+                    .constrainAs(content) {
+                        linkTo(
+                            top = parent.top,
+                            bottom = parent.bottom,
+                            end = parent.end,
+                            start = parent.start
+                        )
+                    }
+                    .padding(horizontal = hPadding.dp)
+                    .fillMaxWidth()
+                    .scrollable(scrollState, Orientation.Vertical),
+                state = listState
+            ) {
+                items(chunkedList) { item ->
+                    Row {
+                        item.forEach { pokemon ->
+                            PokemonItem(this, pokemon, onItemClick)
+                        }
+
+                        repeat(columns - item.size) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1F)
+                                    .padding(8.dp)
+                            ) {}
+                        }
                     }
                 }
+            }
+
+            if(isLoading) {
+                Loader(
+                    modifier = Modifier.constrainAs(progress) {
+                        linkTo(top = parent.top, bottom = parent.bottom, end = parent.end, start = parent.start)
+                    }
+                )
             }
         }
     }
@@ -100,7 +130,8 @@ fun DefaultPreview() {
                     name = "granbull"
                 )
             ),
-            onItemClick = {}
+            onItemClick = {},
+            onNeedToFetch = {}
         )
     }
 }
