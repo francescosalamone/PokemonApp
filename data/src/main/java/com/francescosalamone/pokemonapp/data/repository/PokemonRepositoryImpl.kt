@@ -35,7 +35,7 @@ class PokemonRepositoryImpl(
 
             if(result.isSuccessful) {
                 result.body()?.let {
-                    Timber.d("RESPONSE NETWORK: $it")
+                    //Timber.d("RESPONSE NETWORK: $it")
                     emit(DataState.Success(it))
                 } ?: run {
                         Timber.e("RESPONSE NETWORK: Missing body content.")
