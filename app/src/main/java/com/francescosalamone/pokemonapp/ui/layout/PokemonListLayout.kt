@@ -26,7 +26,7 @@ import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
 @Composable
 fun PokemonListLayout(
     items: List<PokemonData>,
-    columns: Int = 3,
+    columns: Int = 2,
     hPadding: Int = 8,
     onItemClick: (PokemonData) -> Unit
 ) {

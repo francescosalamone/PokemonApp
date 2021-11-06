@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.annotation.ExperimentalCoilApi
@@ -25,6 +25,7 @@ import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.francescosalamone.pokemonapp.R
 import com.francescosalamone.pokemonapp.model.dto.PokemonList.PokemonData
+import com.francescosalamone.pokemonapp.utils.toComplementary
 import kotlinx.coroutines.launch
 
 @ExperimentalCoilApi
@@ -37,6 +38,7 @@ fun PokemonItem(
     scope.apply {
         val defaultColor = MaterialTheme.colors.surface
         val bgColor = remember { mutableStateOf(defaultColor) }
+        val textColor = remember { mutableStateOf(Color.Unspecified) }
 
         Card(
             backgroundColor = bgColor.value,
@@ -48,8 +50,7 @@ fun PokemonItem(
                 .clickable { onClick.invoke(pokemon) }
         ) {
 
-            ConstraintLayout {
-                val (image, name) = createRefs()
+            Column {
                 val imagePainter = rememberImagePainter(
                     data = pokemon.pictureUrl,
                     builder = {
@@ -66,39 +67,33 @@ fun PokemonItem(
                     contentDescription = pokemon.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .constrainAs(image) {
-                            linkTo(
-                                top = parent.top,
-                                bottom = parent.bottom,
-                                start = parent.start,
-                                end = parent.end
-                            )
-                        }
                         .fillMaxHeight()
                         .size(120.dp)
+                        .align(Alignment.CenterHorizontally)
                 )
                 if(painterState is ImagePainter.State.Success) {
                     LaunchedEffect(painterState) {
                         launch {
                             imagePainter.imageLoader.execute(imagePainter.request)
                                 .drawable?.toBitmap()?.let {
-                                    bgColor.value = Color(
-                                        Palette
-                                            .Builder(it)
-                                            .generate()
-                                            .getLightMutedColor(defaultColor.toArgb())
-                                    )
+                                    val mutedColor = Palette
+                                        .Builder(it)
+                                        .generate()
+                                        .getLightMutedColor(defaultColor.toArgb())
+
+                                    bgColor.value = Color(mutedColor)
+                                    textColor.value = Color(mutedColor.toComplementary() )
                                 }
                         }
                     }
                 }
                 Text(
-                    text = pokemon.name ?: "UNKNOWN",
-                    modifier = Modifier.constrainAs(name) {
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    }
+                    text = pokemon.name?.uppercase() ?: "UNKNOWN",
+                    fontWeight = FontWeight.Medium,
+                    color = textColor.value,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(8.dp)
                 )
             }
         }
