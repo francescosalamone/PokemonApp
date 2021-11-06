@@ -9,5 +9,13 @@ data class PokemonList (
     data class PokemonData(
         val name: String? = null,
         val url: String? = null
-    )
+    ) {
+        val id: String?
+            get() = url?.removeSuffix("/")?.substringAfterLast("/")
+
+        val pictureUrl: String?
+            get() = id?.let {
+                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"
+            }
+    }
 }

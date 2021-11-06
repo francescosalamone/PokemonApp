@@ -11,4 +11,6 @@ interface PokemonRepository {
         limit: UInt,
         offset: UInt
     ): Flow<DataState<PokemonList>>
+
+    fun getPokemon(name: String): Flow<DataState<Pokemon>>
 }

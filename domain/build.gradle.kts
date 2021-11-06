@@ -1,5 +1,14 @@
 plugins {
-    id("kotlin")
+    id("com.android.library")
+    id("kotlin-android")
+}
+
+android {
+    compileSdk = 31
+
+    defaultConfig {
+        minSdk = 23
+    }
 }
 
 dependencies {
@@ -14,6 +23,12 @@ dependencies {
      */
     val koinVersion = "3.1.3"
     implementation("io.insert-koin:koin-core:$koinVersion")
+
+
+    /**
+     * LOGGER DEPENDENCIES
+     */
+    implementation("com.jakewharton.timber:timber:4.7.1")
 
     /**
      * MODULE DEPENDENCIES

@@ -10,6 +10,7 @@ import com.francescosalamone.pokemonapp.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.ui.component.Loader
 import com.francescosalamone.pokemonapp.ui.contract.PokemonState
 import com.francescosalamone.pokemonapp.ui.dataFlow.PokemonDataFlow
+import com.francescosalamone.pokemonapp.ui.layout.PokemonListLayout
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
 import io.uniflow.android.livedata.onStates
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,10 +25,6 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         loadKoinModules(appModule)
-
-        if(Timber.treeCount() == 0) {
-            Timber.plant(Timber.DebugTree())
-        }
 
         onStates(pokemonDataFlow) { state ->
             when(state) {
@@ -65,7 +62,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             PokemonAppTheme {
                 Surface(color = MaterialTheme.colors.background) {
-
+                    PokemonListLayout(
+                        items = pokemons.results,
+                        onItemClick = {
+                            Timber.d("${it.name} clicked!")
+                        }
+                    )
                 }
             }
         }

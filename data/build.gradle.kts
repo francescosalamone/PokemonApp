@@ -1,5 +1,14 @@
 plugins {
-    id("kotlin")
+    id("com.android.library")
+    id("kotlin-android")
+}
+
+android {
+    compileSdk = 31
+
+    defaultConfig {
+        minSdk = 23
+    }
 }
 
 dependencies {
@@ -27,5 +36,11 @@ dependencies {
      * MODULE DEPENDENCIES
      */
     implementation(project(":model"))
+
+
+    /**
+     * LOGGER DEPENDENCIES
+     */
+    implementation("com.jakewharton.timber:timber:4.7.1")
 
 }

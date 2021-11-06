@@ -10,4 +10,8 @@ interface DataSource {
         limit: UInt,
         offset: UInt
     ): Response<PokemonList>
+
+    suspend fun getPokemon(
+        name: String
+    ): Response<Pokemon>
 }

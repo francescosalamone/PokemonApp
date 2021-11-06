@@ -10,4 +10,8 @@ class RemoteDataSource(private val service: PokemonService): DataSource {
     override suspend fun getPokemonList(limit: UInt, offset: UInt): Response<PokemonList> {
         return service.getPokemonList(limit, offset)
     }
+
+    override suspend fun getPokemon(name: String): Response<Pokemon> {
+        return service.getPokemon(name)
+    }
 }

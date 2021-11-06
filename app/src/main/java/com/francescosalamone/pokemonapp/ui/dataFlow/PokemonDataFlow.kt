@@ -19,7 +19,7 @@ class PokemonDataFlow(
 
     fun fetchPokemons() = action(
         onAction = {
-            fetchAllPokemon.getPokemonList(50u, 0u)
+            fetchAllPokemon.getPokemonList(20u, 0u)
                 .collect {
                     setState {
                         when (it) {

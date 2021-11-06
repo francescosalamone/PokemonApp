@@ -1,5 +1,7 @@
 package com.francescosalamone.pokemonapp.ui.layout
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -16,18 +19,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.francescosalamone.pokemonapp.R
-import com.francescosalamone.pokemonapp.model.dto.Pokemon
+import com.francescosalamone.pokemonapp.model.dto.PokemonList.PokemonData
 import com.francescosalamone.pokemonapp.ui.component.PokemonItem
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
 
 @Composable
 fun PokemonListLayout(
-    items: List<Pokemon>,
+    items: List<PokemonData>,
     columns: Int = 3,
-    hPadding: Int = 8
+    hPadding: Int = 8,
+    onItemClick: (PokemonData) -> Unit
 ) {
     val chunkedList = items.chunked(columns)
     val listState = rememberLazyListState()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
@@ -41,13 +46,14 @@ fun PokemonListLayout(
         LazyColumn(
             modifier = Modifier
                 .padding(horizontal = hPadding.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .scrollable(scrollState, Orientation.Vertical),
             state = listState
         ) {
             items(chunkedList) { item ->
                 Row {
                     item.forEach { pokemon ->
-                        PokemonItem(this, pokemon)
+                        PokemonItem(this, pokemon, onItemClick)
                     }
 
                     repeat(columns - item.size) {
@@ -69,31 +75,32 @@ fun DefaultPreview() {
     PokemonAppTheme {
         PokemonListLayout(
             items = listOf(
-                Pokemon(
+                PokemonData(
                     name = "Pickachu"
                 ),
-                Pokemon(
+                PokemonData(
                     name = "bulbasaur"
                 ),
-                Pokemon(
+                PokemonData(
                     name = "wobbuffet"
                 ),
-                Pokemon(
+                PokemonData(
                     name = "forretress"
                 ),
-                Pokemon(
+                PokemonData(
                     name = "dunsparce"
                 ),
-                Pokemon(
+                PokemonData(
                     name = "gligar"
                 ),
-                Pokemon(
+                PokemonData(
                     name = "snubbull"
                 ),
-                Pokemon(
+                PokemonData(
                     name = "granbull"
                 )
-            )
+            ),
+            onItemClick = {}
         )
     }
 }
