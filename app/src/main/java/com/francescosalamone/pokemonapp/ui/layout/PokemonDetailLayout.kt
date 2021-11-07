@@ -2,7 +2,9 @@ package com.francescosalamone.pokemonapp.ui.layout
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -52,6 +54,7 @@ fun PokemonDetailLayout (
         }
     ) {
         val imageSize = 250.dp
+        val scrollState = rememberScrollState()
 
         ConstraintLayout(
             modifier = Modifier
@@ -117,6 +120,7 @@ fun PokemonDetailLayout (
                             end = 8.dp
                         )
                         .fillMaxWidth()
+                        .verticalScroll(scrollState)
                 ) {
                     pokemon.types?.let { items ->
                         Chips(
