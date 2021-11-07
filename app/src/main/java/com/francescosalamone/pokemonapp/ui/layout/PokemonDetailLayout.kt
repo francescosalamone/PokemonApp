@@ -1,15 +1,11 @@
 package com.francescosalamone.pokemonapp.ui.layout
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -33,6 +29,7 @@ import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.francescosalamone.pokemonapp.R
 import com.francescosalamone.pokemonapp.model.dto.Pokemon
+import com.francescosalamone.pokemonapp.ui.component.Chips
 import com.francescosalamone.pokemonapp.ui.component.TopBar
 import kotlinx.coroutines.launch
 
@@ -111,8 +108,14 @@ fun PokemonDetailLayout (
                 Column(
                     modifier = Modifier
                         .padding(start = 8.dp, top = imageSize / 2 + 8.dp, bottom = 8.dp, end = 8.dp)
+                        .fillMaxWidth()
                 ) {
-                    Text(text = "CARD", color = Color.Black)
+                    pokemon.types?.let { items ->
+                        Chips(
+                            items = items.mapNotNull { it.type?.name },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
 
@@ -145,6 +148,33 @@ fun DetailPreview() {
                 other = Pokemon.Sprites.Other(
                     Pokemon.Sprites.Other.OfficialArtWork(
                         frontDefault = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+                    )
+                )
+            ),
+            types = listOf(
+                Pokemon.TypeWrapper(
+                    type = Pokemon.TypeWrapper.TypeDetail(
+                        name = Pokemon.TypeWrapper.TypeDetail.Type.FIRE
+                    )
+                ),
+                Pokemon.TypeWrapper(
+                    type = Pokemon.TypeWrapper.TypeDetail(
+                        name = Pokemon.TypeWrapper.TypeDetail.Type.GROUND
+                    )
+                ),
+                Pokemon.TypeWrapper(
+                    type = Pokemon.TypeWrapper.TypeDetail(
+                        name = Pokemon.TypeWrapper.TypeDetail.Type.GRASS
+                    )
+                ),
+                Pokemon.TypeWrapper(
+                    type = Pokemon.TypeWrapper.TypeDetail(
+                        name = Pokemon.TypeWrapper.TypeDetail.Type.WATER
+                    )
+                ),
+                Pokemon.TypeWrapper(
+                    type = Pokemon.TypeWrapper.TypeDetail(
+                        name = Pokemon.TypeWrapper.TypeDetail.Type.DARK
                     )
                 )
             )
