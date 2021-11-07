@@ -4,16 +4,17 @@ import com.francescosalamone.pokemonapp.domain.usecase.FetchPokemonListUseCase
 import com.francescosalamone.pokemonapp.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.model.state.DataState
 import com.francescosalamone.pokemonapp.ui.contract.PokemonState
-import io.uniflow.android.AndroidDataFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class PokemonDataFlow(
     private val fetchAllPokemon: FetchPokemonListUseCase
-) : AndroidDataFlow() {
+): PokemonVm() {
 
-    private var pokemons: MutableList<PokemonList.PokemonData> = mutableListOf()
+    override var pokemons: MutableList<PokemonList.PokemonData> = mutableListOf()
+
+    override var scrollPosition: Int = 0
 
     init {
         coroutineScope.launch {
@@ -21,7 +22,7 @@ class PokemonDataFlow(
         }
     }
 
-    fun fetchPokemons() = action(
+    override fun fetchPokemons() = action(
         onAction = {
             fetchAllPokemon.getPokemonList()
                 .collect {

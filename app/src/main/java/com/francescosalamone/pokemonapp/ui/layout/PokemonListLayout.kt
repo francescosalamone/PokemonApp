@@ -14,6 +14,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +25,7 @@ import com.francescosalamone.pokemonapp.model.dto.PokemonList.PokemonData
 import com.francescosalamone.pokemonapp.ui.component.Loader
 import com.francescosalamone.pokemonapp.ui.component.PokemonItem
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
@@ -33,11 +35,26 @@ fun PokemonListLayout(
     hPadding: Int = 8,
     isLoading: Boolean = false,
     onItemClick: (PokemonData) -> Unit,
-    onNeedToFetch: () -> Unit
+    onNeedToFetch: () -> Unit,
+    initialScrollPosition: Int = 0,
+    scrollSaver: (Int) -> Unit
 ) {
     val chunkedList = items.chunked(columns)
     val listState = rememberLazyListState()
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(scrollState) {
+        launch {
+            Timber.d("Initial scroll position $initialScrollPosition")
+            listState.scrollToItem(initialScrollPosition)
+        }
+    }
+
+    if(listState.isScrollInProgress) {
+        Timber.d("Scrolling")
+        Timber.d("Scroll position saved at ${listState.firstVisibleItemIndex}")
+        scrollSaver.invoke(listState.firstVisibleItemIndex)
+    }
 
     if (listState.layoutInfo.visibleItemsInfo.any { it.index == chunkedList.lastIndex } && !isLoading) {
         Timber.d("Need to fetch new data")
@@ -131,7 +148,8 @@ fun DefaultPreview() {
                 )
             ),
             onItemClick = {},
-            onNeedToFetch = {}
+            onNeedToFetch = {},
+            scrollSaver = {}
         )
     }
 }
