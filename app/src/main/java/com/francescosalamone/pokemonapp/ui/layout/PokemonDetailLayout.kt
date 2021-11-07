@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -30,6 +31,7 @@ import coil.compose.rememberImagePainter
 import com.francescosalamone.pokemonapp.R
 import com.francescosalamone.pokemonapp.model.dto.Pokemon
 import com.francescosalamone.pokemonapp.ui.component.Chips
+import com.francescosalamone.pokemonapp.ui.component.StatisticGraph
 import com.francescosalamone.pokemonapp.ui.component.TopBar
 import kotlinx.coroutines.launch
 
@@ -66,6 +68,7 @@ fun PokemonDetailLayout (
                     fallback(R.drawable.ic_pokemon)
                     error(R.drawable.ic_pokemon)
                     crossfade(300)
+                    allowHardware(false)
                 }
             )
             val painterState: ImagePainter.State = imagePainter.state
@@ -107,7 +110,12 @@ fun PokemonDetailLayout (
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(start = 8.dp, top = imageSize / 2 + 8.dp, bottom = 8.dp, end = 8.dp)
+                        .padding(
+                            start = 8.dp,
+                            top = imageSize / 2 + 8.dp,
+                            bottom = 8.dp,
+                            end = 8.dp
+                        )
                         .fillMaxWidth()
                 ) {
                     pokemon.types?.let { items ->
@@ -116,6 +124,14 @@ fun PokemonDetailLayout (
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
+
+                    StatisticGraph(
+                        items = pokemon.stats,
+                        modifier = Modifier
+                            .size(300.dp)
+                            .padding(20.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
                 }
             }
 
@@ -175,6 +191,22 @@ fun DetailPreview() {
                 Pokemon.TypeWrapper(
                     type = Pokemon.TypeWrapper.TypeDetail(
                         name = Pokemon.TypeWrapper.TypeDetail.Type.DARK
+                    )
+                )
+            ),
+            stats = listOf(
+                Pokemon.StatWrapper(
+                    effort = 3,
+                    baseStat = 15,
+                    stat = Pokemon.StatWrapper.StatDetail(
+                        type = Pokemon.StatWrapper.StatDetail.Stat.ACCURACY
+                    )
+                ),
+                Pokemon.StatWrapper(
+                    effort = 1,
+                    baseStat = 25,
+                    stat = Pokemon.StatWrapper.StatDetail(
+                        type = Pokemon.StatWrapper.StatDetail.Stat.ATTACK
                     )
                 )
             )
