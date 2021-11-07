@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val appModule = module {
 
     viewModel {
-        PokemonDataFlow(get())
+        PokemonDataFlow(get(), get())
     } bind PokemonVm::class
 
     single {

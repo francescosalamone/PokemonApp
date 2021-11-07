@@ -102,8 +102,8 @@ fun PokemonItem(
 
 @Composable
 @Preview
-fun Preview() {
+private fun Preview() {
     Row {
-        PokemonItem(scope = this, pokemon = PokemonData(name = "Pickachu"), onClick = {})
+        PokemonItem(scope = this, pokemon = PokemonData(name = "Pikachu"), onClick = {})
     }
 }

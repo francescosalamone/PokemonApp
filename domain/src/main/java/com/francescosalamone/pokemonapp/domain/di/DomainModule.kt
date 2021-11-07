@@ -1,6 +1,7 @@
 package com.francescosalamone.pokemonapp.domain.di
 
 import com.francescosalamone.pokemonapp.domain.usecase.FetchPokemonListUseCase
+import com.francescosalamone.pokemonapp.domain.usecase.PokemonDetailUseCase
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -20,5 +21,9 @@ var domainModule = module {
             initialPage = get(qualifier = named("initialPage")),
             limit = get(qualifier = named("limit"))
         )
+    }
+
+    single {
+        PokemonDetailUseCase(get())
     }
 }

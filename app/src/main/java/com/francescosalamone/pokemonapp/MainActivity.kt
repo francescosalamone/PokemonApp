@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.francescosalamone.pokemonapp.di.appModule
+import com.francescosalamone.pokemonapp.model.dto.Pokemon
 import com.francescosalamone.pokemonapp.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.navigation.Destination
 import com.francescosalamone.pokemonapp.navigation.Navigator
@@ -44,13 +45,24 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                is PokemonState.PokemonResult -> navigator.navigate(Destination.List){
-                    updateUi(
-                        pokemons = state.pokemons,
-                        onNeedToFetch = pokemonDataFlow::fetchPokemons,
-                        initialScrollPosition = pokemonDataFlow.scrollPosition,
-                        scrollSaver = { pokemonDataFlow.scrollPosition = it }
-                    )
+                is PokemonState.PokemonResult<*> -> {
+                    ((state.data as? List<*>)?.filterIsInstance<PokemonList.PokemonData>())?.let {
+                        navigator.navigate(Destination.List) {
+                            updateUi(
+                                pokemons = it,
+                                onNeedToFetch = pokemonDataFlow::fetchPokemons,
+                                initialScrollPosition = pokemonDataFlow.scrollPosition,
+                                scrollSaver = { pokemonDataFlow.scrollPosition = it }
+                            )
+                        }
+                    } ?: (state.data as? Pokemon)?.let {
+                        navigator.navigate(Destination.Detail) {
+                            showDetail(it)
+                        }
+                    } ?: run {
+                        Timber.e("Unknown type ${state.data?.javaClass}, navigation not possible")
+                    }
+
                 }
 
                 is PokemonState.Failure -> showError(state.exception)
@@ -81,8 +93,10 @@ class MainActivity : ComponentActivity() {
                     PokemonListLayout(
                         items = pokemons,
                         onItemClick = {
-                            navigator.navigate(Destination.Detail) {
-                                showDetail(it.name ?: "UNKNOWN")
+                            it.name?.let { name ->
+                                pokemonDataFlow.getPokemonDetail(name)
+                            } ?: run {
+                                Timber.e("Impossible to load detail, name is null")
                             }
                         },
                         onNeedToFetch = onNeedToFetch,
@@ -95,11 +109,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun showDetail(name: String) {
+    private fun showDetail(pokemon: Pokemon) {
         setContent {
             PokemonAppTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    PokemonDetailLayout(name)
+                    PokemonDetailLayout(pokemon, ::onBackPressed)
                 }
             }
         }

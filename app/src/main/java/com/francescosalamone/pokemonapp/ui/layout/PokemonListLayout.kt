@@ -123,7 +123,7 @@ fun DefaultPreview() {
         PokemonListLayout(
             items = listOf(
                 PokemonData(
-                    name = "Pickachu"
+                    name = "Pikachu"
                 ),
                 PokemonData(
                     name = "bulbasaur"

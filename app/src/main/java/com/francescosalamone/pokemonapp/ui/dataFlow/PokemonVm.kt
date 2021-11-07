@@ -8,4 +8,5 @@ abstract class PokemonVm: AndroidDataFlow() {
     abstract var scrollPosition: Int
 
     abstract fun fetchPokemons()
+    abstract fun getPokemonDetail(name: String)
 }
