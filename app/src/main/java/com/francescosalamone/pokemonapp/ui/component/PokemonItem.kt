@@ -25,8 +25,8 @@ import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.francescosalamone.pokemonapp.R
 import com.francescosalamone.pokemonapp.model.dto.PokemonList.PokemonData
-import com.francescosalamone.pokemonapp.utils.toComplementary
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @ExperimentalCoilApi
 @Composable
@@ -38,7 +38,6 @@ fun PokemonItem(
     scope.apply {
         val defaultColor = MaterialTheme.colors.surface
         val bgColor = remember { mutableStateOf(defaultColor) }
-        val textColor = remember { mutableStateOf(Color.Unspecified) }
 
         Card(
             backgroundColor = bgColor.value,
@@ -82,7 +81,7 @@ fun PokemonItem(
                                         .getLightMutedColor(defaultColor.toArgb())
 
                                     bgColor.value = Color(mutedColor)
-                                    textColor.value = Color(mutedColor.toComplementary() )
+                                    Timber.d("Color for ${pokemon.name} $mutedColor")
                                 }
                         }
                     }
@@ -90,7 +89,7 @@ fun PokemonItem(
                 Text(
                     text = pokemon.name?.uppercase() ?: "UNKNOWN",
                     fontWeight = FontWeight.Medium,
-                    color = textColor.value,
+                    color = if(bgColor.value == defaultColor) MaterialTheme.colors.onSurface else Color.Black,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .padding(8.dp)

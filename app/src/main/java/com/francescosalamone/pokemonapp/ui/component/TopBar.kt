@@ -17,24 +17,26 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TopBar(
     title: String,
-    imageVector: ImageVector,
-    contentDescription: String,
-    onIconClick: () -> Unit
+    imageVector: ImageVector? = null,
+    contentDescription: String? = null,
+    onIconClick: () -> Unit = {}
 ) {
     Row(
         Modifier
             .height(56.dp)
     ) {
-        IconButton(
-            onClick = onIconClick,
-            modifier = Modifier
-                .fillMaxHeight()
-                .align(Alignment.CenterVertically)
-        ) {
-            Icon(
-                imageVector = imageVector,
-                contentDescription = contentDescription
-            )
+        imageVector?.let {
+            IconButton(
+                onClick = onIconClick,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.CenterVertically)
+            ) {
+                Icon(
+                    imageVector = imageVector,
+                    contentDescription = contentDescription
+                )
+            }
         }
 
         ProvideTextStyle(value = MaterialTheme.typography.h6) {
@@ -42,7 +44,12 @@ fun TopBar(
                 text = title,
                 color = MaterialTheme.colors.onSurface,
                 modifier = Modifier
-                    .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 0.dp)
+                    .padding(
+                        start = if (imageVector != null) 0.dp else 16.dp,
+                        top = 0.dp,
+                        end = 0.dp,
+                        bottom = 0.dp
+                    )
                     .align(Alignment.CenterVertically)
             )
         }

@@ -11,8 +11,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -24,6 +22,7 @@ import com.francescosalamone.pokemonapp.R
 import com.francescosalamone.pokemonapp.model.dto.PokemonList.PokemonData
 import com.francescosalamone.pokemonapp.ui.component.Loader
 import com.francescosalamone.pokemonapp.ui.component.PokemonItem
+import com.francescosalamone.pokemonapp.ui.component.TopBar
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -63,11 +62,7 @@ fun PokemonListLayout(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.app_name))
-                }
-            )
+            TopBar(title = stringResource(id = R.string.app_name))
         }
     ) {
         ConstraintLayout {

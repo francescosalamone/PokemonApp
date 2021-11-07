@@ -112,7 +112,7 @@ fun PokemonDetailLayout (
                     modifier = Modifier
                         .padding(start = 8.dp, top = imageSize / 2 + 8.dp, bottom = 8.dp, end = 8.dp)
                 ) {
-                    Text(text = "CARD")
+                    Text(text = "CARD", color = Color.Black)
                 }
             }
 
