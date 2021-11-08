@@ -125,7 +125,8 @@ class MainActivity : ComponentActivity() {
             updateUi(
                 pokemons = pokemonDataFlow.pokemons,
                 onNeedToFetch = pokemonDataFlow::fetchPokemons,
-                scrollSaver = { pokemonDataFlow.scrollPosition = it }
+                scrollSaver = { pokemonDataFlow.scrollPosition = it },
+                initialScrollPosition = pokemonDataFlow.scrollPosition
             )
         }
     }
