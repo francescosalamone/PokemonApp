@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -87,7 +88,7 @@ fun PokemonItem(
                     }
                 }
                 Text(
-                    text = pokemon.name?.uppercase() ?: "UNKNOWN",
+                    text = pokemon.name?.uppercase() ?: stringResource(R.string.unknown),
                     fontWeight = FontWeight.Medium,
                     color = if(bgColor.value == defaultColor) MaterialTheme.colors.onSurface else Color.Black,
                     modifier = Modifier

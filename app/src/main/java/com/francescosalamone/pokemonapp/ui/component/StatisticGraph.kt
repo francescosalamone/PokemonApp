@@ -10,12 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.francescosalamone.pokemonapp.R
 import com.francescosalamone.pokemonapp.model.dto.Pokemon
 
 class CircleAnimator(
@@ -96,7 +98,7 @@ fun StatisticGraph(
                     )
 
                     Text(
-                        text = it.stat?.type?.name?.normalizeStat(it.baseStat) ?: "Unknown",
+                        text = it.stat?.type?.name?.normalizeStat(it.baseStat) ?: stringResource(R.string.unknown),
                         color = Color.Black,
                         fontSize = 14.sp,
                         modifier = Modifier
