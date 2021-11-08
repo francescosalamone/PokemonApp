@@ -9,8 +9,9 @@
         <item name="colorSecondary">@color/orange_800</item>
         <item name="colorSecondaryVariant">@color/orange_800_dark</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="background">@color/gray_292929</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/background</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
