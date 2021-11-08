@@ -13,4 +13,10 @@ dependencies {
     val roomVersion = "2.3.0"
     implementation("androidx.room:room-common:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
+
+
+    /**
+     * COROUTINES DEPENDENCIES
+     */
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 }

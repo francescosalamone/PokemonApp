@@ -1,6 +1,7 @@
 package com.francescosalamone.pokemonapp.domain.usecase
 
 import com.francescosalamone.pokemonapp.data.repository.PokemonRepository
+import com.francescosalamone.pokemonapp.model.base.UseCase
 import com.francescosalamone.pokemonapp.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.model.state.DataState
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +13,10 @@ class FetchPokemonListUseCase(
     private val repository: PokemonRepository,
     private val initialPage: Int,
     private val limit: Int
-) {
+): UseCase<Unit, PokemonList> {
     private var currentPage = initialPage
 
-    fun getPokemonList(): Flow<DataState<PokemonList>> {
+    override fun invoke(params: Unit): Flow<DataState<PokemonList>> {
         val offset = currentPage * limit
 
         return repository.getPokemonList(limit, offset)

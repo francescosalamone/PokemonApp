@@ -1,7 +1,8 @@
 package com.francescosalamone.pokemonapp.ui.dataFlow
 
-import com.francescosalamone.pokemonapp.domain.usecase.FetchPokemonListUseCase
 import com.francescosalamone.pokemonapp.domain.usecase.PokemonDetailUseCase
+import com.francescosalamone.pokemonapp.model.base.UseCase
+import com.francescosalamone.pokemonapp.model.dto.Pokemon
 import com.francescosalamone.pokemonapp.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.model.state.DataState
 import com.francescosalamone.pokemonapp.ui.contract.PokemonState
@@ -9,8 +10,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PokemonDataFlow(
-    private val fetchAllPokemon: FetchPokemonListUseCase,
-    private val pokemonDetailUseCase: PokemonDetailUseCase
+    private val fetchAllPokemon: UseCase<Unit, PokemonList>,
+    private val pokemonDetailUseCase: UseCase<PokemonDetailUseCase.Param, Pokemon>
 ): PokemonVm() {
 
     override var pokemons: MutableList<PokemonList.PokemonData> = mutableListOf()
@@ -25,7 +26,7 @@ class PokemonDataFlow(
 
     override fun fetchPokemons() = action(
         onAction = {
-            fetchAllPokemon.getPokemonList()
+            fetchAllPokemon.invoke(Unit)
                 .collect {
                     setState {
                         when (it) {
@@ -45,7 +46,7 @@ class PokemonDataFlow(
 
     override fun getPokemonDetail(name: String) = action(
         onAction = {
-            pokemonDetailUseCase.getPokemonDetail(name)
+            pokemonDetailUseCase.invoke(PokemonDetailUseCase.Param(name))
                 .collect {
                     setState {
                         when (it) {
