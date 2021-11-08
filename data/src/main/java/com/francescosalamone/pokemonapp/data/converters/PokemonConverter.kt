@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException
 
 @ProvidedTypeConverter
 class PokemonConverter(
-    val moshi: Moshi
+    private val moshi: Moshi
 ) {
 
     @TypeConverter

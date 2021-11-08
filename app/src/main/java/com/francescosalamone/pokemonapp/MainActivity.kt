@@ -24,8 +24,8 @@ import org.koin.core.context.unloadKoinModules
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
-    val pokemonDataFlow: PokemonVm by viewModel()
-    val navigator: Navigator<Destination> by inject()
+    private val pokemonDataFlow: PokemonVm by viewModel()
+    private val navigator: Navigator<Destination> by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
