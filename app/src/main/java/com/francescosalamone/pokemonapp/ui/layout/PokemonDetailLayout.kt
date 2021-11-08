@@ -1,5 +1,6 @@
 package com.francescosalamone.pokemonapp.ui.layout
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.core.graphics.drawable.toBitmap
@@ -36,6 +38,7 @@ import com.francescosalamone.pokemonapp.ui.component.Chips
 import com.francescosalamone.pokemonapp.ui.component.StatisticGraph
 import com.francescosalamone.pokemonapp.ui.component.TopBar
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @ExperimentalCoilApi
 @Composable
@@ -53,12 +56,29 @@ fun PokemonDetailLayout (
             )
         }
     ) {
-        val imageSize = 250.dp
+        val maxImageSize = 250.dp
+        val minImageSize = 100.dp
         val scrollState = rememberScrollState()
+
+        val imageSize: Dp =
+            (maxImageSize - scrollState.value.dp).coerceIn(minImageSize, maxImageSize)
+
+        @FloatRange(from = 0.0, to = 1.0) val imageBias: Float =
+            ((scrollState.value / 100f) + 0.5f).coerceIn(0.5f, 0.95f)
+
+        if(scrollState.isScrollInProgress) {
+            val result = when {
+                (scrollState.value / 100f) + 0.5f > 1f -> 1f
+                (scrollState.value / 100f) + 0.5f < 0.5f -> 0.5f
+                else -> (scrollState.value / 100f) + 0.5f
+            }
+
+            Timber.d("bias $result for scroll ${scrollState.value}")
+        }
 
         ConstraintLayout(
             modifier = Modifier
-                .padding(start = 0.dp, top = imageSize / 2 + 18.dp, bottom = 0.dp, end = 0.dp)
+                .padding(start = 0.dp, top = imageSize / 2, bottom = 0.dp, end = 0.dp)
                 .fillMaxSize()
         ) {
             val (card, image) = createRefs()
@@ -102,6 +122,7 @@ fun PokemonDetailLayout (
                 elevation = 6.dp,
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(scrollState)
                     .constrainAs(card) {
                         linkTo(
                             start = parent.start,
@@ -120,7 +141,6 @@ fun PokemonDetailLayout (
                             end = 8.dp
                         )
                         .fillMaxWidth()
-                        .verticalScroll(scrollState)
                 ) {
                     pokemon.types?.let { items ->
                         Chips(
@@ -150,7 +170,8 @@ fun PokemonDetailLayout (
                             top = card.top,
                             bottom = card.top,
                             start = card.start,
-                            end = card.end
+                            end = card.end,
+                            horizontalBias = imageBias
                         )
                     }
             )

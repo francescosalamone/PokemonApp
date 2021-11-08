@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.francescosalamone.pokemonapp.model.dto.Pokemon
-import timber.log.Timber
 
 class CircleAnimator(
     val startAngle: Float,
@@ -45,7 +44,6 @@ fun StatisticGraph(
             items.foldIndexed(0) { index, accumulator, item ->
                 val startSliceAngle = accumulator.times(360f).div(totalStats) + startAngle
                 val sliceSweepAngle = (item.baseStat ?: 0).times(360f).div(totalStats)
-                Timber.d("Chart slice for item $index from $startSliceAngle to $sliceSweepAngle")
 
                 val constraintRef = if (index > 0) {
                     createRef()

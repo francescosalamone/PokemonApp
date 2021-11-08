@@ -14,7 +14,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.francescosalamone.pokemonapp.model.dto.Pokemon
-import timber.log.Timber
 
 @Composable
 fun Chips(
@@ -26,7 +25,7 @@ fun Chips(
     val textPadding = 4.dp
 
     BoxWithConstraints {
-        Timber.d("maxWidth ${this.maxWidth}")
+
         val columns = (this.maxWidth / (chipSize + marginBetweenChips*2 + textPadding*2)).toInt()
         val chunkedList = items.chunked(if(columns < 1) 1 else columns)
 
