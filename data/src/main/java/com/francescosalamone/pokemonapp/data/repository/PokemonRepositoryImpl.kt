@@ -1,50 +1,74 @@
 package com.francescosalamone.pokemonapp.data.repository
 
+import com.francescosalamone.pokemonapp.data.exception.MissingCachedDataException
 import com.francescosalamone.pokemonapp.data.source.RemoteDataSource
+import com.francescosalamone.pokemonapp.data.source.RoomDataSource
 import com.francescosalamone.pokemonapp.model.dto.Pokemon
 import com.francescosalamone.pokemonapp.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.model.state.DataState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 import timber.log.Timber
 
 class PokemonRepositoryImpl(
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val roomDataSource: RoomDataSource
 ): PokemonRepository {
 
-    override fun getPokemonList(limit: UInt, offset: UInt): Flow<DataState<PokemonList>> {
-        return callService {
-            Timber.d("Calling service pokemon?limit=$limit&offset=$offset")
-            remoteDataSource.getPokemonList(limit, offset)
-        }
+    override fun getPokemonList(limit: Int, offset: Int): Flow<DataState<PokemonList>> {
+        Timber.d("Calling service pokemon?limit=$limit&offset=$offset")
+        return callService(
+            service = {
+                remoteDataSource.getPokemonList(limit, offset)
+            },
+            dao = {
+                roomDataSource.getPokemonList(limit, offset)
+            },
+            updateCache = {
+                roomDataSource.savePokemonList(it)
+            }
+        )
     }
 
     override fun getPokemon(name: String): Flow<DataState<Pokemon>> {
-        return callService {
-            Timber.d("Calling service pokemon/$name")
-            remoteDataSource.getPokemon(name)
-        }
+        Timber.d("Calling service pokemon/$name")
+        return callService(
+            service = {
+                remoteDataSource.getPokemon(name)
+            },
+            dao = {
+                roomDataSource.getPokemon(name)
+            },
+            updateCache = {
+                roomDataSource.savePokemon(it)
+            }
+        )
     }
 
-    private fun <O> callService(service: suspend () -> Response<O>): Flow<DataState<O>> {
+    private fun <O> callService(
+        service: suspend () -> O,
+        dao: suspend () -> O,
+        updateCache: suspend (O) -> Unit
+    ): Flow<DataState<O>> {
         return flow {
             emit(DataState.Loading)
 
-            val result = service.invoke()
+            try {
+                val cachedResult = dao.invoke()
+                Timber.d("Getting Cached data")
+                emit(DataState.Success(cachedResult))
 
-            if(result.isSuccessful) {
-                result.body()?.let {
-                    //Timber.d("RESPONSE NETWORK: $it")
-                    emit(DataState.Success(it))
-                } ?: run {
-                        Timber.e("RESPONSE NETWORK: Missing body content.")
-                        emit(DataState.Failure(Exception("Missing body content.")))
-                    }
-            } else {
-                val error = result.errorBody()?.string()
-                Timber.e("RESPONSE NETWORK: $error")
-                emit(DataState.Failure(Exception(error)))
+            } catch (exception: MissingCachedDataException) {
+
+                Timber.d("Getting data from Network")
+                val networkResult = service.invoke()
+
+                Timber.d("Update pokemon in cache")
+                updateCache.invoke(networkResult)
+
+                emit(DataState.Success(networkResult))
+            } catch (exception: Exception) {
+                emit(DataState.Failure(exception))
             }
         }
     }

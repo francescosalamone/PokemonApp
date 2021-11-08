@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface PokemonRepository {
 
     fun getPokemonList(
-        limit: UInt,
-        offset: UInt
+        limit: Int,
+        offset: Int
     ): Flow<DataState<PokemonList>>
 
     fun getPokemon(name: String): Flow<DataState<Pokemon>>

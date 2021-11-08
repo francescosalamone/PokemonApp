@@ -103,6 +103,6 @@ fun PokemonItem(
 @Preview
 private fun Preview() {
     Row {
-        PokemonItem(scope = this, pokemon = PokemonData(name = "Pikachu"), onClick = {})
+        PokemonItem(scope = this, pokemon = PokemonData(name = "Pikachu", uid = 1), onClick = {})
     }
 }

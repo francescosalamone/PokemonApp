@@ -234,6 +234,7 @@ fun PokemonDetailLayout (
 fun DetailPreview() {
     PokemonDetailLayout(
         pokemon = Pokemon(
+            uid = 1,
             name = "Pikachu",
             sprites = Pokemon.Sprites(
                 other = Pokemon.Sprites.Other(

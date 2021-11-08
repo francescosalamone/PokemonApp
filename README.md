@@ -13,3 +13,4 @@ Android App made using [PokeApi](https://pokeapi.co).
 - [Retrofit2](https://github.com/square/retrofit)
 - [Moshi](https://github.com/square/moshi/)
 - [Coil](https://coil-kt.github.io/coil/compose/) used to handle pictures with Jetpack compose
+- [Room](https://developer.android.com/training/data-storage/room) Used to store data coming from internet, in order to use the app also when internet is not available.

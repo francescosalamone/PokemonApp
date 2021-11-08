@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.onEach
 
 class FetchPokemonListUseCase(
     private val repository: PokemonRepository,
-    private val initialPage: UInt,
-    private val limit: UInt
+    private val initialPage: Int,
+    private val limit: Int
 ) {
     private var currentPage = initialPage
 

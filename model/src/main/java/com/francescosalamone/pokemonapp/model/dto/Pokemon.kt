@@ -1,8 +1,12 @@
 package com.francescosalamone.pokemonapp.model.dto
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
+@Entity(tableName = "pokemon_table")
 data class Pokemon (
+    @PrimaryKey(autoGenerate = true) val uid: Int,
     val abilities: List<AbilityData> = emptyList(),
     @field:Json(name = "base_experience") val baseExperience: Int? = null,
     val name: String? = null,

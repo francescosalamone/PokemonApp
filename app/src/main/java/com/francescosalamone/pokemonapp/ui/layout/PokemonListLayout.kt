@@ -118,27 +118,35 @@ fun DefaultPreview() {
         PokemonListLayout(
             items = listOf(
                 PokemonData(
+                    uid = 1,
                     name = "Pikachu"
                 ),
                 PokemonData(
+                    uid = 2,
                     name = "bulbasaur"
                 ),
                 PokemonData(
+                    uid = 3,
                     name = "wobbuffet"
                 ),
                 PokemonData(
+                    uid = 4,
                     name = "forretress"
                 ),
                 PokemonData(
+                    uid = 5,
                     name = "dunsparce"
                 ),
                 PokemonData(
+                    uid = 6,
                     name = "gligar"
                 ),
                 PokemonData(
+                    uid = 7,
                     name = "snubbull"
                 ),
                 PokemonData(
+                    uid = 8,
                     name = "granbull"
                 )
             ),

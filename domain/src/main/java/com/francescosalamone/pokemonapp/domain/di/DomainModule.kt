@@ -8,11 +8,11 @@ import org.koin.dsl.module
 var domainModule = module {
 
     single(qualifier = named("limit")) {
-        20u
+        20
     }
 
     single(qualifier = named("initialPage")) {
-        0u
+        0
     }
 
     single {

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    kotlin("kapt")
 }
 
 android {
@@ -20,6 +21,13 @@ dependencies {
     api("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
     implementation("androidx.annotation:annotation:1.3.0")
+
+    /**
+     * ROOM DEPENDENCIES
+     */
+    val roomVersion = "2.3.0"
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
 
     /**
      * KOIN DEPENDENCIES
