@@ -8,7 +8,9 @@ data class Pokemon (
     val name: String? = null,
     val sprites: Sprites? = null,
     val types: List<TypeWrapper>? = emptyList(),
-    val stats: List<StatWrapper> = emptyList()
+    val stats: List<StatWrapper> = emptyList(),
+    val weight: Int? = null,
+    val height: Int? = null
 ) {
     data class AbilityData(
         val ability: Ability? = null,

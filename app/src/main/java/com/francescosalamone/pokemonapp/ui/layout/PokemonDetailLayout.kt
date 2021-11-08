@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -22,10 +23,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
@@ -81,7 +84,7 @@ fun PokemonDetailLayout (
                 .padding(start = 0.dp, top = imageSize / 2, bottom = 0.dp, end = 0.dp)
                 .fillMaxSize()
         ) {
-            val (card, image) = createRefs()
+            val (weight, card, image) = createRefs()
             val defaultColor = MaterialTheme.colors.surface
             val bgColor = remember { mutableStateOf(defaultColor) }
 
@@ -147,6 +150,53 @@ fun PokemonDetailLayout (
                             items = items.mapNotNull { it.type?.name },
                             modifier = Modifier.fillMaxWidth()
                         )
+                    }
+
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(4.dp)
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.weight_label),
+                                color = Color.Black,
+                                fontSize = 14.sp,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                            Text(
+                                text = pokemon.weight?.div(10f).toString().plus(" Kg"),
+                                color = Color.Black,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                        }
+
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.height_label),
+                                color = Color.Black,
+                                fontSize = 14.sp,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                            Text(
+                                text = pokemon.height?.div(10f).toString().plus(" m"),
+                                color = Color.Black,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                        }
                     }
 
                     StatisticGraph(

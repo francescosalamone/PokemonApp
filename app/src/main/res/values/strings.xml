@@ -2,4 +2,6 @@
     <string name="app_name">PokemonApp</string>
     <string name="back_action_content_description">Go back</string>
     <string name="pokemon_detail_title">Pokemon detail</string>
+    <string name="weight_label">Weight</string>
+    <string name="height_label">Height</string>
 </resources>
