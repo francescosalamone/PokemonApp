@@ -15,6 +15,7 @@ import com.francescosalamone.pokemonapp.ui.dataFlow.PokemonVm
 import com.francescosalamone.pokemonapp.ui.layout.PokemonDetailLayout
 import com.francescosalamone.pokemonapp.ui.layout.PokemonListLayout
 import com.francescosalamone.pokemonapp.ui.theme.PokemonAppTheme
+import com.francescosalamone.pokemonapp.utils.filterIsInstanceOrNull
 import io.uniflow.android.livedata.onStates
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 is PokemonState.PokemonResult<*> -> {
-                    ((state.data as? List<*>)?.filterIsInstance<PokemonList.PokemonData>())?.let {
+                    ((state.data as? List<*>)?.filterIsInstanceOrNull<PokemonList.PokemonData>())?.let {
                         navigator.navigate(Destination.List) {
                             updateUi(
                                 pokemons = it,
