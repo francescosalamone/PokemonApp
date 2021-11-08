@@ -9,6 +9,7 @@ class Navigator<T>() {
     fun back(): Boolean {
         return if(canNavigateBack()) {
             backStack.remove(backStack.keys.last())
+            Timber.d("Navigate to ${backStack.keys}")
             backStack.values.last().invoke()
             Timber.d("Back handled")
             true

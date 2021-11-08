@@ -123,7 +123,7 @@ class MainActivity : ComponentActivity() {
         Timber.d("Start navigation")
         navigator.navigate(Destination.List) {
             updateUi(
-                pokemons = emptyList(),
+                pokemons = pokemonDataFlow.pokemons,
                 onNeedToFetch = pokemonDataFlow::fetchPokemons,
                 scrollSaver = { pokemonDataFlow.scrollPosition = it }
             )
