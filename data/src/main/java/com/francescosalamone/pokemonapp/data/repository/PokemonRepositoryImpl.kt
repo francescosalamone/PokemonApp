@@ -1,8 +1,7 @@
 package com.francescosalamone.pokemonapp.data.repository
 
 import com.francescosalamone.pokemonapp.data.exception.MissingCachedDataException
-import com.francescosalamone.pokemonapp.data.source.RemoteDataSource
-import com.francescosalamone.pokemonapp.data.source.RoomDataSource
+import com.francescosalamone.pokemonapp.data.source.DataSource
 import com.francescosalamone.pokemonapp.model.dto.Pokemon
 import com.francescosalamone.pokemonapp.model.dto.PokemonList
 import com.francescosalamone.pokemonapp.model.state.DataState
@@ -11,8 +10,8 @@ import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 class PokemonRepositoryImpl(
-    private val remoteDataSource: RemoteDataSource,
-    private val roomDataSource: RoomDataSource
+    private val remoteDataSource: DataSource,
+    private val roomDataSource: DataSource
 ): PokemonRepository {
 
     override fun getPokemonList(limit: Int, offset: Int): Flow<DataState<PokemonList>> {

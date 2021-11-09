@@ -5,6 +5,7 @@ import com.francescosalamone.pokemonapp.data.converters.PokemonConverter
 import com.francescosalamone.pokemonapp.data.database.PokemonDb
 import com.francescosalamone.pokemonapp.data.repository.PokemonRepository
 import com.francescosalamone.pokemonapp.data.repository.PokemonRepositoryImpl
+import com.francescosalamone.pokemonapp.data.source.DataSource
 import com.francescosalamone.pokemonapp.data.source.RemoteDataSource
 import com.francescosalamone.pokemonapp.data.source.RoomDataSource
 import com.squareup.moshi.Moshi
@@ -45,15 +46,19 @@ var apiModule = module {
         get<PokemonDb>().pokemonDao()
     }
 
-    single {
+    single(
+        qualifier = named("remoteDS")
+    ) {
         RemoteDataSource(get())
-    }
+    } bind DataSource::class
 
-    single {
+    single(
+        qualifier = named("roomDS")
+    ) {
         RoomDataSource(get())
-    }
+    } bind DataSource::class
 
     single {
-        PokemonRepositoryImpl(get(), get())
+        PokemonRepositoryImpl(get(named("remoteDS")), get(named("roomDS")))
     } bind PokemonRepository::class
 }

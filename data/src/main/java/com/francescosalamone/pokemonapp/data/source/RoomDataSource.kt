@@ -21,12 +21,12 @@ class RoomDataSource(private val dao: PokemonDao): DataSource {
         return dao.getPokemon(name) ?: throw MissingCachedDataException("Missing data from db")
     }
 
-    suspend fun savePokemonList(pokemonList: PokemonList) {
+    override suspend fun savePokemonList(pokemonList: PokemonList) {
         Timber.d("Saving pokemon list to DB")
         dao.insertPokemonList(pokemonList.results)
     }
 
-    suspend fun savePokemon(pokemon: Pokemon) {
+    override suspend fun savePokemon(pokemon: Pokemon) {
         Timber.d("Saving pokemon ${pokemon.name} to DB")
         dao.insertPokemon(pokemon)
     }

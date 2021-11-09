@@ -13,4 +13,12 @@ interface DataSource {
     suspend fun getPokemon(
         name: String
     ): Pokemon
+
+    suspend fun savePokemonList(
+        pokemonList: PokemonList
+    )
+
+    suspend fun savePokemon(
+        pokemon: Pokemon
+    )
 }

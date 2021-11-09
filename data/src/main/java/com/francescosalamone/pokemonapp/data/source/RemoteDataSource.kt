@@ -16,6 +16,14 @@ class RemoteDataSource(private val service: PokemonService): DataSource {
         return service.getPokemon(name).getOrThrow()
     }
 
+    override suspend fun savePokemonList(pokemonList: PokemonList) {
+        Timber.w("Save is not implemented for remote source")
+    }
+
+    override suspend fun savePokemon(pokemon: Pokemon) {
+        Timber.w("Save is not implemented for remote source")
+    }
+
     private fun<T> Response<T>.getOrThrow(): T {
         if(isSuccessful) {
             body()?.let {
