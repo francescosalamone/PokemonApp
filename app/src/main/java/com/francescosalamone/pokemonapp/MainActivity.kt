@@ -78,6 +78,13 @@ class MainActivity : ComponentActivity() {
 
     private fun showError(exception: Exception) {
         Timber.d("Failure from service: $exception")
+        updateUi(
+            isLoading = false,
+            pokemons = pokemonDataFlow.pokemons,
+            onNeedToFetch = pokemonDataFlow::fetchPokemons,
+            initialScrollPosition = pokemonDataFlow.scrollPosition,
+            scrollSaver = { pokemonDataFlow.scrollPosition = it }
+        )
     }
 
     private fun updateUi(
