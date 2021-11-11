@@ -1,7 +1,9 @@
 # PokemonApp
 Android App made using [PokeApi](https://pokeapi.co).
 
-## Work in progress...
+<p align="center">
+    <img src="pokemonlogo.png" alt="PokemonApp logo" width="400">
+</p>
 
 ## Tech detail
 - Clean Architecture with Repository pattern
